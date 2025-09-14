@@ -1,0 +1,29 @@
+POST http://localhost:3000/api/station/create
+Content-Type: application/json
+
+
+[
+  {"stationId":1,"name":"Estación 1","address":"Calle 1","stopType":"Inicio","stationStatus":"1"},
+  {"stationId":2,"name":"Estación 3","address":"Calle 2","stopType":"Inicio","stationStatus":"1"},
+  {"stationId":3,"name":"Estación 4","address":"Calle 3","stopType":"Inicio","stationStatus":"1"},
+  
+  {"stationId":4,"name":"Estación 5","address":"Calle 4","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":5,"name":"Estación 6","address":"Calle 5","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":6,"name":"Estación 7","address":"Calle 6","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":7,"name":"Estación 8","address":"Calle 7","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":8,"name":"Estación 9","address":"Calle 8","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":9,"name":"Estación 10","address":"Calle 9","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":10,"name":"Estación 11","address":"Calle 10","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":11,"name":"Estación 12","address":"Calle 11","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":12,"name":"Estación 13","address":"Calle 12","stopType":"Intermedia","stationStatus":"1"},
+  {"stationId":13,"name":"Estación 14","address":"Calle 13","stopType":"Intermedia","stationStatus":"1"},
+
+  {"stationId":14,"name":"Estación 15","address":"Calle 14","stopType":"Final","stationStatus":"1"},
+  {"stationId":15,"name":"Estación 16","address":"Calle 15","stopType":"Final","stationStatus":"1"},
+  {"stationId":16,"name":"Estación 17","address":"Calle 16","stopType":"Final","stationStatus":"1"}
+]
+
+##########
+GET http://localhost:3000/api/station/all 
+
+#####
