@@ -4,6 +4,7 @@ import { Router } from "express";
 const routeStationRouter = Router()
 
 routeStationRouter.post('/create',RouteStationController.postRoute)
+routeStationRouter.get('/all',RouteStationController.getAll)
 
 
 export default routeStationRouter

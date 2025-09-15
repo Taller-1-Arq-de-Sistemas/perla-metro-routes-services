@@ -22,7 +22,7 @@ export async function validateRoute(routeId){
 export async function lastId() {
     try{
         const query = `
-            MATCH (r:route)
+            MATCH (r:ROUTE)
             RETURN r.routeId as lastId
             ORDER BY r.routeId DESC
             LIMIT 1
@@ -34,6 +34,7 @@ export async function lastId() {
         }
         let nextId = result.records[0].get('lastId');
         nextId = Number(nextId);
+        
         return nextId + 1;
     }catch(error){
         console.log('Error al encontrar la ultima route para el autoincement', error.message);

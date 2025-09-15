@@ -1,6 +1,7 @@
 import {database} from '../database/connection.js';
 import {lastId} from '../validator/funtionRouteValidator.js'
 import { validateStationExistsData } from '../validator/funcionStationValidator.js';
+import { record } from 'zod';
 
 export class RouteStationModel
 {
@@ -42,6 +43,8 @@ export class RouteStationModel
             
             
             const routeId = await lastId();
+
+            console.log(routeId)
             
             let query = `CREATE (r:ROUTE {routeId: $routeId, startTime: $startTime, endTime: $endTime, routeStatus: $routeStatus}) RETURN r`
             
@@ -103,18 +106,7 @@ export class RouteStationModel
                 }
    
             }
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("LLEGO A ESTA PARTE")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
-            console.log("                    ")
+           
             return {
                 status: 201,
                 message: "Ruta creada",
@@ -131,5 +123,33 @@ export class RouteStationModel
                 status:500
             }
         }
+    }
+    static async getRouteAll(){
+        try{
+            let query = `MATCH (r:ROUTE) RETURN r`
+            const result = await database.runQuery(query);
+            if(result.records.length==0){
+                return {
+                    status:404,
+                    message:"Datos inexistentes",
+                    data:null
+                }
+            }
+            const routeMap = result.records.map(record => record.get('r').properties);
+            return {
+                status:200,
+                data: routeMap,
+                message: "Datos encontrados"
+            }
+        }catch(error){
+            console.log("error en la base de datos ", error.message);
+            return {
+                status:403,
+                data: null,
+                message: "Error inesperado en la solicitud",
+                error: error.message
+            }
+        }
+
     }
 }
