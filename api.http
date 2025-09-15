@@ -27,3 +27,15 @@ Content-Type: application/json
 GET http://localhost:3000/api/station/all 
 
 #####
+
+
+POST http://localhost:3000/api/routeStation/create
+Content-Type: application/json
+
+{
+  "inicio":1,
+  "intermedio":[4,5,6,7,8],
+  "final":14,
+  "horaInicio":"asfasf",
+  "horaFin":"asfasf"
+}

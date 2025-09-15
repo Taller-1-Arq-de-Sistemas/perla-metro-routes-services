@@ -15,3 +15,29 @@ export async function validateStationExists(stationId){
     }
     
 }
+export async function validateStationExistsData(stationId) {
+    try{
+        const query = `
+            MATCH (s: Station {stationId: $stationId})
+            RETURN s
+            `
+        const result = await database.runQuery(query,{
+            stationId:stationId
+        })
+        
+        if(result.records.length ===0){
+            return null
+        }
+        const data =  result.records[0].get('s').properties;
+        if(data.stationStatus !=="1"){
+            console.log("datos no validos")
+            return null;
+        }
+        return result.records[0].get('s').properties;
+    }
+    catch(error){
+        console.log('ERROR, ALGO MAL SALIO', error.message)
+        return null
+    }
+    
+}

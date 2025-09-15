@@ -5,6 +5,7 @@ import cors from "cors"
 import helmet from "helmet";
 import dotenv from "dotenv";
 import stationRouter from "./router/station.js";
+import routeStationRouter from "./router/routeStation.js";
 import {initializeDataBase, handleGracefulShutdown} from "./database/connection.js"
 
 
@@ -26,7 +27,7 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-
+app.use('/api/routeStation',routeStationRouter)
 app.use('/api/station',stationRouter)
 async function startApp() {
     await initializeDataBase();
