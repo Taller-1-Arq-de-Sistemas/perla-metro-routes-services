@@ -42,3 +42,23 @@ Content-Type: application/json
 
 ####
 GET http://localhost:3000/api/routeStation/all
+###
+
+PUT http://localhost:3000/api/routeStation/delete
+Content-Type: application/json
+
+{
+  "routeId":0
+}
+
+###
+GET http://localhost:3000/api/routeStation/unic
+Content-Type: application/json
+
+{
+  "routeId":0
+}
+
+
+###
+put

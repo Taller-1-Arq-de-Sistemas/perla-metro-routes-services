@@ -40,9 +40,7 @@ export class StationsModel{
                     }
                 }
                 content.push(result.records[0].get("s").properties)
-
             }
-            
             return {
                 type:true,
                 status: 201,
@@ -60,6 +58,7 @@ export class StationsModel{
             }
         }
     }
+    
     static async getAll(){
         try{
             const query = `

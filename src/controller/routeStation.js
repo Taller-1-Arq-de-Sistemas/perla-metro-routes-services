@@ -1,3 +1,4 @@
+import { error } from "neo4j-driver";
 import { RouteStationModel } from "../model/routeStation.js";
 
 export class RouteStationController 
@@ -54,6 +55,63 @@ export class RouteStationController
             return res.status(500).json({
                 message: "Problemas en el servidor",
                 error: error.message
+            })
+        }
+    }
+    static async putStatus(req,res)
+    {
+        try{
+            const bodyData = req.body
+
+            const result = await RouteStationModel.putStatus(bodyData)
+            if(result != 200){
+                return res.status(result.status).json({
+                    message: result.message,
+                    error: result.error ? result.error : "",
+                    data: result.data
+                })
+            }
+            return res.status(result.status).json({
+                message: result.message,
+                data:result.data
+            })
+        }
+        catch(error)
+        {
+            console.log('errrrrrrrrrrroooooooooooor ', error.message)
+            return res.status(500).json({
+                message:'error en el controlador',
+                error:error.message
+            })
+        }
+    }
+    static async getRouteId(req, res)
+    {
+        try
+        {
+            const bodyData = req.body
+            
+            const result=await RouteStationModel.getRouteId(bodyData)
+
+            if(result.status!= 200){
+                return res.status(result.status).json({
+                    message: result.message,
+                    data:null,
+                    error: result.error ? result.error : ""
+                })
+            }
+            return res.status(result.status).json({
+                message: result.message,
+                data:result.data,
+            })
+
+        }catch(error)
+        {
+            console.log(error.message + " ERror en el controlador" );
+            return res.status(500).json({
+                message:"ERROR EN EL CONTROLADOR ",
+                data:null,
+                error:error.message
             })
         }
     }

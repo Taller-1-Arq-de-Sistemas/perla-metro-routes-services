@@ -2,9 +2,8 @@ import {database} from '../database/connection.js'
 
 export async function validateRoute(routeId){
     try{
-        const query = 'MATCH (r:route {routeId: $routeId}) RETURN r'
+        const query = 'MATCH (r:ROUTE {routeId: $routeId}) RETURN r'
         const result = await database.runQuery(query,{routeId: routeId});
-        const lastid = await lastId()
        
         if(result.records.length<0){
             console.log('No existen datos')
@@ -19,6 +18,29 @@ export async function validateRoute(routeId){
     }
 }
   
+export async function getRoute(routeId) {
+    try
+    {
+        const query =`
+            MATCH (r:ROUTE {routeId: $routeId})
+            RETURN r
+        `
+        
+        const result = await database.runQuery(query,{routeId: routeId})
+        console.log(result.records[0].get('r').properties)
+        if(result.records.length==0){
+            console.log('error, no se encontraron datos')
+            return null
+        }
+        return result.records[0].get('r').properties
+    }
+    catch(error)
+    {
+        console.log('ERROR EN LA BASE DE DATOS ', error.message)
+        return null
+    }
+    
+}
 export async function lastId() {
     try{
         const query = `

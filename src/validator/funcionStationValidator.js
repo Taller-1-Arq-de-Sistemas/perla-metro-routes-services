@@ -41,3 +41,7 @@ export async function validateStationExistsData(stationId) {
     }
     
 }
+export function validateHour(hour){
+    const houreRex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
+    return houreRex.test(hour);
+}

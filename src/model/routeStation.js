@@ -1,7 +1,6 @@
 import {database} from '../database/connection.js';
-import {lastId} from '../validator/funtionRouteValidator.js'
-import { validateStationExistsData } from '../validator/funcionStationValidator.js';
-import { record } from 'zod';
+import {getRoute, lastId, validateRoute} from '../validator/funtionRouteValidator.js'
+import { validateHour, validateStationExistsData } from '../validator/funcionStationValidator.js';
 
 export class RouteStationModel
 {
@@ -10,6 +9,9 @@ export class RouteStationModel
         try{
             // comporar los datos de llegada mejor lo hago con zod
             let validate =  await validateStationExistsData(data.inicio);
+            if(!validateHour ){
+                retur
+            }
             
             if(validate == null || validate.stopType != "Inicio"){
                 return {
@@ -126,7 +128,14 @@ export class RouteStationModel
     }
     static async getRouteAll(){
         try{
-            let query = `MATCH (r:ROUTE) RETURN r`
+            let query = `
+            MATCH (r:ROUTE) 
+            OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
+            OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
+            OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
+            WITH r, inicio, final,
+                 [node in nodes(path)[1..-1] | node ] as nodosIntermedios
+            RETURN r, inicio, final, nodosIntermedios`
             const result = await database.runQuery(query);
             if(result.records.length==0){
                 return {
@@ -135,7 +144,23 @@ export class RouteStationModel
                     data:null
                 }
             }
-            const routeMap = result.records.map(record => record.get('r').properties);
+
+            const routeMap = result.records.map(record => 
+                {
+                    const rute = record.get('r').properties;
+                    const inicio = record.get('inicio') ? record.get('inicio').properties : null;
+                    const final = record.get('final') ? record.get('final').properties: null;
+                    const intermedia = record.get('nodosIntermedios')  || []
+                    const rutaIntermedia = intermedia.map(node => node.properties);
+                    return {
+                        rute,
+                        estacionInicio : inicio,
+                        estacionFinal: final,
+                        estacionesIntermedias :rutaIntermedia
+                    }
+
+                });
+                
             return {
                 status:200,
                 data: routeMap,
@@ -151,5 +176,102 @@ export class RouteStationModel
             }
         }
 
+    }
+    static async putStatus(data){
+        try{
+            console.log(data.routeId)
+            const validate = await getRoute(data.routeId)
+            if(validate ==null){
+                return {
+                    message: "La ruta enviada no existe",
+                    data:null,
+                    status: 404
+                }
+            }
+            const query=`
+                MATCH (r:ROUTE {routeId :$routeId})
+                SET r.routeStatus = $routeStatus
+                RETURN r
+            `
+            const result = await database.runQuery(query,
+                {
+                    routeId: data.routeId,
+                    routeStatus: validate.routeStatus == 1 ? 0 : 1
+                    
+                    
+                }
+            )
+            if(result.records.length === 0){
+                return {
+                    status:400,
+                    message:"ERROR AL ACUTALIZAR",
+                    data:null
+                }
+            }
+            return {
+                status:200,
+                message: "ruta eliminada",
+                data:result.records[0].get('r').properties
+            }
+        }  
+        catch(error)
+        {
+            console.log('Error en la base de datos', error.message)
+            return {
+                message: "Error en la base de datos",
+                error: error.message,
+                data:null
+            }
+        }
+
+    }
+    static async getRouteId(data){
+        try{
+            let query = `
+                MATCH (r:ROUTE {routeId: $routeId}) 
+                OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
+                OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
+                OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
+                WITH r, inicio, final,
+                    [node in nodes(path)[1..-1] | node ] as nodosIntermedios
+                RETURN r, inicio, final, nodosIntermedios
+            `
+            const result = await database.runQuery(query, {routeId:data.routeId})
+            if(result.records.length==0){
+                return {
+                    status:404,
+                    message:"Datos inexistentes",
+                    data:null
+                }
+            }
+            const routeMap = result.records.map(record => 
+                {
+                    const rute = record.get('r').properties;
+                    const inicio = record.get('inicio') ? record.get('inicio').properties : null;
+                    const final = record.get('final') ? record.get('final').properties: null;
+                    const intermedia = record.get('nodosIntermedios')  || []
+                    const rutaIntermedia = intermedia.map(node => node.properties);
+                    return {
+                        rute,
+                        estacionInicio : inicio,
+                        estacionFinal: final,
+                        estacionesIntermedias :rutaIntermedia
+                    }
+
+                }
+            );
+            return {
+                status:200,
+                data: routeMap,
+                message: "Datos encontrados"
+            }
+        }
+        catch(error){
+            return {
+                message: "Error en el modulo",
+                error:error.message,
+                data:null
+            }
+        }
     }
 }
