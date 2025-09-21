@@ -1,5 +1,4 @@
 import neo4j from "neo4j-driver"
-import { th } from "zod/locales";
 
 class Neo4j {
     constructor(){
@@ -9,10 +8,10 @@ class Neo4j {
     async connect(){
         try{
             this.driver=neo4j.driver(
-                'bolt://localhost:7687',
+                'neo4j+s://5794040b.databases.neo4j.io',
                 neo4j.auth.basic(
                     'neo4j',
-                    'password123'
+                    'rSpxHbykoG92Nh9Vezs_njtsleA6U5epHXKIRkCPxTY'
                 )
             )
             const session =this.driver.session()
@@ -69,7 +68,7 @@ class Neo4j {
         }
     }
     isHealthy(){
-        return this.isConnection && this.driver ==! null;
+        return this.isConnection && this.driver !== null;
     }
 }
 const database =new Neo4j();
