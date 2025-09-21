@@ -6,19 +6,20 @@ export class StationController
 {
     static async postStation(req,res){
         try{
-            const validate = validateStaionParsePartial(req.body)
-            const errors = validate.error.issues.map(err => ({
+            
+            const validate = validateStaionParse(req.body)
+            
+            if(!validate.success){
+                const errors = validate.error.issues.map(err => ({
                     field: err.path.join('.'),
                     message: err.message,
                     code: err.code
                 }));
-            if(!validate.success){
                 return res.status(400).json({
                     message: "Datos invalidos",
                     error:errors
                 })
             }
-            
             const result = await StationsModel.createStation(validate.data);
             if(!result.type){
                 return res.status(result.status).json(

@@ -1,26 +1,25 @@
 POST http://localhost:3000/api/station/create
 Content-Type: application/json
 
-
 [
-  {"stationId":1,"name":"Estación 1","address":"Calle 1","stopType":"Inicio","stationStatus":"1"},
-  {"stationId":2,"name":"Estación 2","address":"Calle 2","stopType":"Inicio","stationStatus":"1"},
-  {"stationId":3,"name":"Estación 3","address":"Calle 3","stopType":"Inicio","stationStatus":"1"},
+  {"estacionId":1,"nombre":"Estación Central Norte","direccion":"Av. Libertador 1250","tipoParada":"Inicio","estadoEstacion":1},
+  {"estacionId":2,"nombre":"Plaza San Martín","direccion":"Plaza San Martín s/n","tipoParada":"Inicio","estadoEstacion":1},
+  {"estacionId":3,"nombre":"Terminal Belgrano","direccion":"Av. Belgrano 3400","tipoParada":"Inicio","estadoEstacion":1},
   
-  {"stationId":4,"name":"Estación 4","address":"Calle 4","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":5,"name":"Estación 5","address":"Calle 5","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":6,"name":"Estación 6","address":"Calle 6","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":7,"name":"Estación 7","address":"Calle 7","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":8,"name":"Estación 8","address":"Calle 8","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":9,"name":"Estación 9","address":"Calle 9","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":10,"name":"Estación 10","address":"Calle 10","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":11,"name":"Estación 11","address":"Calle 11","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":12,"name":"Estación 12","address":"Calle 12","stopType":"Intermedia","stationStatus":"1"},
-  {"stationId":13,"name":"Estación 13","address":"Calle 13","stopType":"Intermedia","stationStatus":"1"},
+  {"estacionId":4,"nombre":"Barrio Norte","direccion":"Av. Santa Fe 2100","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":5,"nombre":"Palermo Chico","direccion":"Av. del Libertador 1800","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":6,"nombre":"Recoleta","direccion":"Av. Pueyrredón 1900","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":7,"nombre":"Retiro","direccion":"Plaza San Martín 300","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":8,"nombre":"Puerto Madero","direccion":"Av. Alicia Moreau de Justo 1150","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":9,"nombre":"San Telmo","direccion":"Defensa 800","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":10,"nombre":"La Boca","direccion":"Av. Pedro de Mendoza 1835","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":11,"nombre":"Barracas","direccion":"Av. Montes de Oca 1200","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":12,"nombre":"Constitución","direccion":"Plaza Constitución s/n","tipoParada":"Intermedia","estadoEstacion":1},
+  {"estacionId":13,"nombre":"San Cristóbal","direccion":"Av. Entre Ríos 1400","tipoParada":"Intermedia","estadoEstacion":1},
 
-  {"stationId":14,"name":"Estación 14","address":"Calle 14","stopType":"Final","stationStatus":"1"},
-  {"stationId":15,"name":"Estación 15","address":"Calle 15","stopType":"Final","stationStatus":"1"},
-  {"stationId":16,"name":"Estación 16","address":"Calle 16","stopType":"Final","stationStatus":"1"}
+  {"estacionId":14,"nombre":"Terminal Sur","direccion":"Av. 9 de Julio 3500","tipoParada":"Final","estadoEstacion":1},
+  {"estacionId":15,"nombre":"Estación Riachuelo","direccion":"Av. Riachuelo 2200","tipoParada":"Final","estadoEstacion":1},
+  {"estacionId":16,"nombre":"Terminal Oeste","direccion":"Av. Rivadavia 8500","tipoParada":"Final","estadoEstacion":1}
 ]
 
 ##########
@@ -34,10 +33,10 @@ Content-Type: application/json
 
 {
   "inicio":1,
-  "intermedio":[4,5,6,7,8],
+  "intermedio":[4,5,6,7,8,9],
   "final":14,
-  "horaInicio":"asfasf",
-  "horaFin":"asfasf"
+  "horaInicio":"12:00",
+  "horaFin":"22:00"
 }
 
 ####

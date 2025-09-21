@@ -7,9 +7,7 @@ export class RouteStationModel
     static async createRoute(data)
     {
         try{
-            // comporar los datos de llegada mejor lo hago con zod
             let validate =  await validateStationExistsData(data.inicio);
-            
             
             if(validate == null || validate.stopType != "Inicio"){
                 return {
@@ -44,8 +42,7 @@ export class RouteStationModel
             
             
             const routeId = await lastId();
-
-            console.log(routeId)
+            
             
             let query = `CREATE (r:ROUTE {routeId: $routeId, startTime: $startTime, endTime: $endTime, routeStatus: $routeStatus}) RETURN r`
             
@@ -132,8 +129,12 @@ export class RouteStationModel
             OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
             OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
             OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
-            WITH r, inicio, final,
-                 [node in nodes(path)[1..-1] | node ] as nodosIntermedios
+            WITH DISTINCT r, inicio, final,
+                 CASE
+                   WHEN inicio IS NOT NULL AND final IS NOT NULL
+                   THEN [(inicio)-[:rutaIntermedia*]->(final) | nodes(path)[1..-1]][0]
+                   ELSE []        
+                  END as nodosIntermedios          
             RETURN r, inicio, final, nodosIntermedios`
             const result = await database.runQuery(query);
             if(result.records.length==0){
@@ -143,8 +144,6 @@ export class RouteStationModel
                     data:null
                 }
             }
-            console.log(result)
-
             const routeMap = result.records.map(record => 
                 {
                     const rute = record.get('r').properties;
@@ -207,8 +206,6 @@ export class RouteStationModel
                 {
                     routeId: data.routeId,
                     routeStatus: validate.routeStatus == 1 ? 0 : 1
-                    
-                    
                 }
             )
             if(result.records.length === 0){
@@ -242,8 +239,12 @@ export class RouteStationModel
                 OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
                 OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
                 OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
-                WITH r, inicio, final,
-                    [node in nodes(path)[1..-1] | node ] as nodosIntermedios
+                WITH DISTINCT r, inicio, final,
+                     CASE
+                       WHEN inicio IS NOT NULL AND final IS NOT NULL
+                       THEN [(inicio)-[:rutaIntermedia*]->(final) | nodes(path)[1..-1]][0]
+                       ELSE []        
+                     END as nodosIntermedios 
                 RETURN r, inicio, final, nodosIntermedios
             `
             const result = await database.runQuery(query, {routeId:data.routeId})

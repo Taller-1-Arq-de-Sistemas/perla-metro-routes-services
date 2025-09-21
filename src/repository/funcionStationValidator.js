@@ -24,12 +24,11 @@ export async function validateStationExistsData(stationId) {
         const result = await database.runQuery(query,{
             stationId:stationId
         })
-        
         if(result.records.length ===0){
             return null
         }
         const data =  result.records[0].get('s').properties;
-        if(data.stationStatus !=="1"){
+        if(data.stationStatus !==1){
             console.log("datos no validos")
             return null;
         }
@@ -40,8 +39,4 @@ export async function validateStationExistsData(stationId) {
         return null
     }
     
-}
-export function validateHour(hour){
-    const houreRex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
-    return houreRex.test(hour);
 }

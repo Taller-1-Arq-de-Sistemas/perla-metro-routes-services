@@ -8,12 +8,12 @@ export class RouteStationController
     {
         try{
             const result = validateRouteStationPartial(req.body)
-            const errors = result.error.issues.map(err => ({
+            if(!result.success){
+                const errors = result.error.issues.map(err => ({
                     field: err.path.join('.'),
                     message: err.message,
                     code: err.code
                 }));
-            if(!result.success){
                 return res.status(400).json({
                     message: "Datos invalidos",
                     error:errors
