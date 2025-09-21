@@ -93,7 +93,7 @@ export class RouteStationController
             
             const result=await RouteStationModel.getRouteId(bodyData)
 
-            if(result.status!= 200){
+            if(result.status != 200){
                 return res.status(result.status).json({
                     message: result.message,
                     data:null,
@@ -111,6 +111,35 @@ export class RouteStationController
             return res.status(500).json({
                 message:"ERROR EN EL CONTROLADOR ",
                 data:null,
+                error:error.message
+            })
+        }
+    }
+    static async updateRouteId(req,res){
+        try
+        {
+            const bodyData = req.body
+            const result =await RouteStationModel.updateRoute(bodyData)
+            if(result.status !=200)
+                {
+                    return res.status(result.status).json(
+                        {
+                            message:result.message,
+                            data: result.data,
+                            error: result.error?result.error:""
+                        })
+                }
+            return res.status(result.status).json(
+                {
+                    message:result.message,
+                    data:result.data
+                })
+        }
+        catch(error)
+        {
+            console.log("ERROR EN EL CONTROLADOR ", error.message)
+            return res.status(500).json({
+                message: "ERROR EN EL CONTROLADOR",
                 error:error.message
             })
         }
