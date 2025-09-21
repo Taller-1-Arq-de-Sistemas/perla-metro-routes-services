@@ -70,3 +70,7 @@ Content-Type: application/json
   "horaFin":"24:0aasf",
   "estatus":1
 }
+
+####
+
+GET  http://perla-metro-routes-services.vercel.app/api/station/all 
