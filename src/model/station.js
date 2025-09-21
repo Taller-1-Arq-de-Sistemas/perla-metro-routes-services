@@ -1,5 +1,5 @@
 import {database} from '../database/connection.js';
-import { validateStationExists } from '../validator/funcionStationValidator.js';
+import { validateStationExists } from '../repository/funcionStationValidator.js';
 
 export class StationsModel{
     static async createStation(StationsData){

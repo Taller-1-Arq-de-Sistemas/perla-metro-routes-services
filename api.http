@@ -68,5 +68,6 @@ Content-Type: application/json
   "routeId":0,
   "final":14,
   "horaInicio":"12:00",
-  "horaFin":"24:00"
+  "horaFin":"24:00",
+  "estatus":1
 }

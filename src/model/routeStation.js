@@ -1,6 +1,6 @@
 import {database} from '../database/connection.js';
-import {deleteRoute, getIdRoute, getRoute, lastId, validateRoute} from '../validator/funtionRouteValidator.js'
-import { validateHour, validateStationExistsData } from '../validator/funcionStationValidator.js';
+import {deleteRoute, getIdRoute, getRoute, lastId } from '../repository/funtionRouteValidator.js'
+import {  validateStationExistsData } from '../repository/funcionStationValidator.js';
 
 export class RouteStationModel
 {
@@ -31,6 +31,7 @@ export class RouteStationModel
                     }   
                 }
             }
+            
             validate = await validateStationExistsData(data.final)
             if(validate==null|| validate.stopType !="Final")
                 {
@@ -142,6 +143,7 @@ export class RouteStationModel
                     data:null
                 }
             }
+            console.log(result)
 
             const routeMap = result.records.map(record => 
                 {
