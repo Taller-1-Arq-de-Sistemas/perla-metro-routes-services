@@ -1,14 +1,25 @@
-import { success } from "zod";
 import { StationsModel } from "../model/station.js";
 import { error } from "neo4j-driver";
+import {validateStaionParse, validateStaionParsePartial} from "../validator/validateStation.js"
 
 export class StationController 
 {
     static async postStation(req,res){
         try{
-            const data = req.body;
+            const validate = validateStaionParsePartial(req.body)
+            const errors = validate.error.issues.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                    code: err.code
+                }));
+            if(!validate.success){
+                return res.status(400).json({
+                    message: "Datos invalidos",
+                    error:errors
+                })
+            }
             
-            const result = await StationsModel.createStation(data);
+            const result = await StationsModel.createStation(validate.data);
             if(!result.type){
                 return res.status(result.status).json(
                     {

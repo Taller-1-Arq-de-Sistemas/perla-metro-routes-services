@@ -9,7 +9,7 @@ export class StationsModel{
             const stationDataGet = isArray ? StationsData : [ StationsData ]
             
             for (let i = 0; i < stationDataGet.length;i++){
-                const validate = await validateStationExists(stationDataGet[i].stationId)
+                const validate = await validateStationExists(stationDataGet[i].estacionId)
                 if(validate){
                     return {
                         type:false,
@@ -24,11 +24,11 @@ export class StationsModel{
             for (let i = 0; i < stationDataGet.length;i++){
                 const query = `CREATE (s:Station {stationId: $stationId, name: $name, address: $address, stopType: $stopType, stationStatus: $stationStatus}) RETURN s `
                 const params = {
-                    stationId: stationDataGet[i].stationId,   
-                    name: stationDataGet[i].name,             
-                    address: stationDataGet[i].address,       
-                    stopType: stationDataGet[i].stopType,     
-                    stationStatus: stationDataGet[i].stationStatus 
+                    stationId: stationDataGet[i].estacionId,   
+                    name: stationDataGet[i].nombre,             
+                    address: stationDataGet[i].direccion,       
+                    stopType: stationDataGet[i].tipoParada,     
+                    stationStatus: stationDataGet[i].estadoEstacion 
                 };
                 const result = await database.runQuery(query, params);
                 if(result.records.length <= 0){

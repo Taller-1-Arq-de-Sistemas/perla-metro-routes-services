@@ -1,14 +1,25 @@
 import { error } from "neo4j-driver";
 import { RouteStationModel } from "../model/routeStation.js";
+import { validateRouteStation,validateRouteStationPartial } from "../validator/validateRouteStation.js";
 
 export class RouteStationController 
 {
     static async postRoute(req,res)
     {
         try{
-            const dataBody =  req.body
-
-            const dataCreate = await RouteStationModel.createRoute(dataBody)
+            const result = validateRouteStationPartial(req.body)
+            const errors = result.error.issues.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                    code: err.code
+                }));
+            if(!result.success){
+                return res.status(400).json({
+                    message: "Datos invalidos",
+                    error:errors
+                })
+            }
+            const dataCreate = await RouteStationModel.createRoute(result.data)
 
             if(dataCreate.status != 201){
                 return res.status(dataCreate.status).json({
@@ -61,9 +72,21 @@ export class RouteStationController
     static async putStatus(req,res)
     {
         try{
-            const bodyData = req.body
-
-            const result = await RouteStationModel.putStatus(bodyData)
+            const validate = validateRouteStationPartial(req.body)
+            
+            if(!validate.success){
+                const errors = validate.error.issues.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                    code: err.code
+                }));
+                return res.status(400).json({
+                    message: "Datos invalidos",
+                    error:errors
+                })
+            }
+            
+            const result = await RouteStationModel.putStatus(validate.data)
             if(result != 200){
                 return res.status(result.status).json({
                     message: result.message,
@@ -89,9 +112,21 @@ export class RouteStationController
     {
         try
         {
-            const bodyData = req.body
+            const validate = validateRouteStationPartial(req.body)
+            if(!validate.success){
+                const errors = validate.error.issues.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                    code: err.code
+                }));
+                return res.status(400).json({
+                    message: "Datos invalidos",
+                    error:errors
+                })
+            }
             
-            const result=await RouteStationModel.getRouteId(bodyData)
+            
+            const result=await RouteStationModel.getRouteId(validate.data)
 
             if(result.status != 200){
                 return res.status(result.status).json({
@@ -118,8 +153,21 @@ export class RouteStationController
     static async updateRouteId(req,res){
         try
         {
-            const bodyData = req.body
-            const result =await RouteStationModel.updateRoute(bodyData)
+            const validate = validateRouteStationPartial(req.body)
+            console.log(validate.error.issues[0])
+            if(!validate.success){
+                const errors = validate.error.issues.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                    code: err.code
+                }));
+                return res.status(400).json({
+                    message: "Datos invalidos",
+                    error:errors
+                })
+            }
+            
+            const result =await RouteStationModel.updateRoute(validate.data)
             if(result.status !=200)
                 {
                     return res.status(result.status).json(

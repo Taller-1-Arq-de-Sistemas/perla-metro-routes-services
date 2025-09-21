@@ -128,7 +128,7 @@ export class RouteStationModel
     static async getRouteAll(){
         try{
             let query = `
-            MATCH (r:ROUTE) 
+            MATCH (r:ROUTE {routeStatus: 1}) 
             OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
             OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
             OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
@@ -238,7 +238,7 @@ export class RouteStationModel
     static async getRouteId(data){
         try{
             let query = `
-                MATCH (r:ROUTE {routeId: $routeId}) 
+                MATCH (r:ROUTE {routeId: $routeId,routeStatus: 1}) 
                 OPTIONAL MATCH (r)-[:rutaInicio]->(inicio:Station)
                 OPTIONAL MATCH (r)-[:rutaFin]->(final:Station)
                 OPTIONAL MATCH path = (inicio)-[:rutaIntermedia*]->(final)
