@@ -5,9 +5,9 @@ const routeStationRouter = Router()
 
 routeStationRouter.post('/create',RouteStationController.postRoute)
 routeStationRouter.get('/all',RouteStationController.getAll)
-routeStationRouter.put('/delete',RouteStationController.putStatus)
-routeStationRouter.get('/unic',RouteStationController.getRouteId)
-routeStationRouter.put('/update',RouteStationController.updateRouteId)
+routeStationRouter.put('/delete/:routeId',RouteStationController.putStatus)
+routeStationRouter.get('/unic/:routeId',RouteStationController.getRouteId)
+routeStationRouter.put('/update/:routeId',RouteStationController.updateRouteId)
 
 
 export default routeStationRouter

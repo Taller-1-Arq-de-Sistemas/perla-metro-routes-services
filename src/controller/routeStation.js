@@ -1,6 +1,7 @@
 import { error } from "neo4j-driver";
 import { RouteStationModel } from "../model/routeStation.js";
 import { validateRouteStation,validateRouteStationPartial } from "../validator/validateRouteStation.js";
+import { int32 } from "zod";
 
 export class RouteStationController 
 {
@@ -72,7 +73,9 @@ export class RouteStationController
     static async putStatus(req,res)
     {
         try{
-            const validate = validateRouteStationPartial(req.body)
+            const routeId =parseInt(req.params.routeId,10)
+            const params ={routeId}
+            const validate = validateRouteStationPartial(params)
             
             if(!validate.success){
                 const errors = validate.error.issues.map(err => ({
@@ -112,7 +115,9 @@ export class RouteStationController
     {
         try
         {
-            const validate = validateRouteStationPartial(req.body)
+            const routeId =parseInt(req.params.routeId,10)
+            const params ={routeId}
+            const validate = validateRouteStationPartial(params)
             if(!validate.success){
                 const errors = validate.error.issues.map(err => ({
                     field: err.path.join('.'),
@@ -153,8 +158,10 @@ export class RouteStationController
     static async updateRouteId(req,res){
         try
         {
-            const validate = validateRouteStationPartial(req.body)
-            console.log(validate.error.issues[0])
+            const routeId =parseInt(req.params.routeId,10)
+            const params ={routeId,...req.body}
+            const validate = validateRouteStationPartial(params)
+            console.log(validate.success)
             if(!validate.success){
                 const errors = validate.error.issues.map(err => ({
                     field: err.path.join('.'),
