@@ -1,0 +1,167 @@
+# Perla Metro Routes Services
+
+## 📋 Descripción
+
+Servicio backend para la gestión y cálculo de rutas del sistema de metro Perla. Este proyecto utiliza Neo4j como base de datos de grafos para modelar eficientemente la red de transporte y calcular las rutas óptimas entre estaciones.
+
+## 🚀 Características
+
+- **Base de datos de grafos**: Utiliza Neo4j para representar estaciones y conexiones del metro
+- **Cálculo de rutas**: Algoritmos optimizados para encontrar las mejores rutas entre estaciones
+- **API REST**: Endpoints para consultar información de estaciones y rutas
+- **Escalable**: Arquitectura diseñada para soportar múltiples líneas de metro
+
+## 🛠️ Tecnologías
+
+- **Node.js**: Entorno de ejecución
+- **Neo4j**: Base de datos de grafos
+- **Express.js**: Framework web (presumiblemente)
+- **Neo4j Driver**: Cliente oficial de Neo4j para Node.js
+
+## 📦 Requisitos Previos
+
+- Node.js (v14 o superior)
+- Neo4j (v4.0 o superior)
+- npm o yarn
+
+## 🔧 Instalación
+
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/Taller-1-Arq-de-Sistemas/perla-metro-routes-services.git
+cd perla-metro-routes-services
+```
+
+2. **Instalar dependencias**
+```bash
+npm install
+```
+
+3. **Configurar variables de entorno**
+
+Crear un archivo `.env` en la raíz del proyecto:
+```env
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=tu_password
+PORT=3000
+```
+
+4. **Iniciar Neo4j**
+
+Asegúrate de tener Neo4j corriendo en tu máquina local o configura la conexión a una instancia remota.
+
+5. **Iniciar el servidor**
+```bash
+npm start
+```
+
+## 📁 Estructura del Proyecto
+
+```
+BACKROUTE/
+├── src/
+|   |
+|   ├──controller/
+|   |   └── routeStation.js       #controlador de routeServices
+|   |   └── station.js            # controlador de station
+│   ├── database/
+│   │   └── neo4j.js              # Configuración 
+|   |   └── connection.JS         # Conexión a Neo4j
+|   ├── middlewares/
+|   |    └──cors.js 
+│   ├── repositories/             # Capa de acceso a datos (Repository Pattern)
+│   │   ├── funcionStationValidator.js  # Repositorio de estaciones
+│   │   └── funtionRouteValidator.js    # Repositorio de rutas
+│   │   
+│   ├── routes/                   # Rutas de la API
+│   │   ├── routeRoutes.js
+│   │   └── stationRoutes.js
+│   └── models/                   # Modelos de datos
+|   |   └── routeStation.js       # modelos de LA RUTA
+|   |   └── station.js            # modelos de la estación
+|   |
+|   ├── validator/
+|    |    └── validatorRouteStation.js       # modelos de LA RUTA
+|   |   └── validatorStation.js      
+├──app.js  
+├── package.json
+└── README.md
+```
+
+## 🗄️ Modelo de Datos
+
+El modelo de datos en Neo4j representa:
+
+- **Nodos Estación**: Cada estación del metro
+- **Relaciones CONECTA_CON**: Conexiones entre estaciones
+- **Propiedades**: Tiempo de viaje, distancia, línea de metro, etc.
+
+### Ejemplo de estructura:
+```cypher
+(Estación A)-[:CONECTA_CON {tiempo: 3, distancia: 2.5, linea: "A"}]->(Estación B)
+```
+
+## 🔌 API Endpoints
+
+### Obtener todas las estaciones
+```http
+GET /api/stations
+```
+
+### Obtener estación por ID
+```http
+GET /api/stations/:id
+```
+
+### Calcular ruta óptima
+```http
+POST /api/routes/calculate
+Content-Type: application/json
+
+{
+  "origin": "Estación A",
+  "destination": "Estación Z"
+}
+```
+
+### Obtener líneas de metro
+```http
+GET /api/lines
+```
+
+## 💡 Uso
+
+### Ejemplo: Calcular una ruta
+```javascript
+const response = await fetch('http://localhost:3000/api/routes/calculate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    origin: 'Estación Central',
+    destination: 'Estación Norte'
+  })
+});
+
+const route = await response.json();
+console.log(route);
+```
+🏗️ Patrón de Diseño: Repository
+Este proyecto implementa el patrón Repository para abstraer la lógica de acceso a datos y mantener el código organizado, testeable y mantenible.
+¿Qué es el patrón Repository?
+El patrón Repository actúa como una capa intermedia entre la lógica de negocio (servicios) y la capa de acceso a datos (base de datos). Proporciona una interfaz limpia para realizar operaciones CRUD sin exponer los detalles de implementación de la base de datos.
+Ventajas del patrón
+
+✅ Separación de responsabilidades: Separa la lógica de negocio del acceso a datos
+✅ Testabilidad: Facilita la creación de mocks y tests unitarios
+✅ Mantenibilidad: Cambios en la BD no afectan la lógica de negocio
+✅ Reutilización: Los repositorios pueden ser usados por múltiples servicios
+✅ Abstracción: Oculta la complejidad de las consultas Cypher a Neo4j
+
+
+## 👥 Autores
+
+Proyecto desarrollado como parte del Taller 1 de Arquitectura de Sistemas.
+
