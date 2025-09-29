@@ -8,10 +8,10 @@ class Neo4j {
     async connect(){
         try{
             this.driver=neo4j.driver(
-                'bolt://localhost:7687',
+                'neo4j+s://5794040b.databases.neo4j.io' || 'neo4j',
                 neo4j.auth.basic(
                     'neo4j',
-                    'password123'
+                    'rSpxHbykoG92Nh9Vezs_njtsleA6U5epHXKIRkCPxTY'|| 'password123'
                 )
             )
             const session =this.driver.session()

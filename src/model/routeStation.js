@@ -9,7 +9,7 @@ export class RouteStationModel
         try{
             let validate =  await validateStationExistsData(data.inicio);
             
-            if(validate == null || validate.stopType != "Inicio"){
+            if(validate == null ){
                 return {
                     message: "El id de inicio no es valido ",
                     data: data.inicio,
@@ -20,7 +20,7 @@ export class RouteStationModel
 
             for(let i = 0; i<data.intermedio.length;i++){
                 validate = await validateStationExistsData(data.intermedio[i])
-                if(validate==null || validate.stopType !="Intermedia"){
+                if(validate==null ){
                     return {
                         message: "El id de intermedio no es valido ",
                         index: i,
@@ -31,7 +31,7 @@ export class RouteStationModel
             }
             
             validate = await validateStationExistsData(data.final)
-            if(validate==null|| validate.stopType !="Final")
+            if(validate==null)
                 {
                     return {
                     message: "El id de final no es valido ",

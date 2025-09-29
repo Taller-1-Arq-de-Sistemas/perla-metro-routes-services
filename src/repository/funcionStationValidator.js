@@ -24,14 +24,12 @@ export async function validateStationExistsData(stationId) {
         const result = await database.runQuery(query,{
             stationId:stationId
         })
+        console.log(result.records[0].get('s').properties)
         if(result.records.length ===0){
             return null
         }
         const data =  result.records[0].get('s').properties;
-        if(data.stationStatus !==1){
-            console.log("datos no validos")
-            return null;
-        }
+        
         return result.records[0].get('s').properties;
     }
     catch(error){

@@ -1,26 +1,28 @@
 POST http://localhost:3000/api/station/create
 Content-Type: application/json
 
-[
-  {"estacionId":1,"nombre":"Estación Central Norte","direccion":"Av. Libertador 1250","tipoParada":"Inicio","estadoEstacion":1},
-  {"estacionId":2,"nombre":"Plaza San Martín","direccion":"Plaza San Martín s/n","tipoParada":"Inicio","estadoEstacion":1},
-  {"estacionId":3,"nombre":"Terminal Belgrano","direccion":"Av. Belgrano 3400","tipoParada":"Inicio","estadoEstacion":1},
-  
-  {"estacionId":4,"nombre":"Barrio Norte","direccion":"Av. Santa Fe 2100","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":5,"nombre":"Palermo Chico","direccion":"Av. del Libertador 1800","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":6,"nombre":"Recoleta","direccion":"Av. Pueyrredón 1900","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":7,"nombre":"Retiro","direccion":"Plaza San Martín 300","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":8,"nombre":"Puerto Madero","direccion":"Av. Alicia Moreau de Justo 1150","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":9,"nombre":"San Telmo","direccion":"Defensa 800","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":10,"nombre":"La Boca","direccion":"Av. Pedro de Mendoza 1835","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":11,"nombre":"Barracas","direccion":"Av. Montes de Oca 1200","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":12,"nombre":"Constitución","direccion":"Plaza Constitución s/n","tipoParada":"Intermedia","estadoEstacion":1},
-  {"estacionId":13,"nombre":"San Cristóbal","direccion":"Av. Entre Ríos 1400","tipoParada":"Intermedia","estadoEstacion":1},
+{
+  "ID": "c9b1a6d4-7b7a-4e53-94b5-3f5dbe3a2c8a",
+  "NameStation": "Estación Central",
+  "Location": "Av. Libertador 1250",
+  "Type": "Origen",
+  "State": true
+}
 
-  {"estacionId":14,"nombre":"Terminal Sur","direccion":"Av. 9 de Julio 3500","tipoParada":"Final","estadoEstacion":1},
-  {"estacionId":15,"nombre":"Estación Riachuelo","direccion":"Av. Riachuelo 2200","tipoParada":"Final","estadoEstacion":1},
-  {"estacionId":16,"nombre":"Terminal Oeste","direccion":"Av. Rivadavia 8500","tipoParada":"Final","estadoEstacion":1}
-]
+##########
+PUT http://localhost:3000/api/station/update/c9b1a6d4-7b7a-4e53-94b5-3f5dbe3a2c8e
+Content-Type: application/json
+
+{
+  "NameStation": "maipu",
+  "Location": "Av. Libertador 1250",
+  "Type": "Origen"
+
+}
+
+####
+PUT  http://localhost:3000/api/station/delete/c9b1a6d4-7b7a-4e53-94b5-3f5dbe3a2c8e
+
 
 ##########
 GET http://localhost:3000/api/station/all 
@@ -96,3 +98,7 @@ Content-Type: application/json
   "horaInicio":"12:00",
   "horaFin":"22:00"
 }
+
+
+####
+put http://localhost:8080/api/Stations/ChangeStateStation/c9b1a6d4-7b7a-4e53-94b5-3f5dbe3a2c8e

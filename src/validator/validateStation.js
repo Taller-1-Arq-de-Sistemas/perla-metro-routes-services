@@ -3,11 +3,11 @@ import {z} from "zod";
 
 const validateStation = z.object({
 
-    estacionId: z.number({required_error: "El usuario debe de ingresar una id"}).min(0,{message: "El usuario debe de ingrear un numero positivo"}),
-    nombre: z.string({required_error:"El usuario debe de ingresar un nombre valido"}).min(1,{message:"El usuario debe de ingresar minimo 1 datos"}),
-    direccion: z.string({required_error:"El usuario debe de ingresar una dirección valida"}).min(1,{message:"El usuario debe de ingresar minimo 1 datos"}),
-    tipoParada:z.enum(["Inicio", "Intermedia", "Final"],{message:"Se deben de ingresar solo este tipo de paradasd (Inicio, Intermedio, Final)"}),
-    estadoEstacion:z.number({required_error: "El usuario debe de ingresar una id"}).min(0,{message: "El usuario debe de ingrear un numero positivo"})
+    ID: z.string({required_error: "El usuario debe de ingresar una id"}).uuid({message:"Valor NO VALIDO"}),
+    NameStation: z.string({required_error:"El usuario debe de ingresar un nombre valido"}).min(1,{message:"El usuario debe de ingresar minimo 1 datos"}),
+    Location: z.string({required_error:"El usuario debe de ingresar una dirección valida"}).min(1,{message:"El usuario debe de ingresar minimo 1 datos"}),
+    Type:z.enum(["Origen", "Intermedia", "Destino"],{message:"Se deben de ingresar solo este tipo de paradasd (Inicio, Intermedio, Final)"}),
+    State: z.boolean({required_error: "El usuario debe de ingresar una id"})
 
 })
 
